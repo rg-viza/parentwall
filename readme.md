@@ -42,4 +42,4 @@ If you discover a security vulnerability within PWWGM, please send an e-mail to 
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+BSD
