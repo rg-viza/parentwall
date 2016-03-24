@@ -25,8 +25,23 @@ The whitelists are set up per user and the administrator can allow a given site 
 
 ## To Do
 
-Short Term
+Currently only the dashboard with service statuses/control are implemented in this laravel interface. 
+The interface, running on lighttpd, supports iptables and tinyproxy service management on Arch using systemctl.
 
+Short Term 
+I plan to add my working code from the alpha build for domain, user and firewall management from my Yoggie, incorporate it into the Laravel, get the whole appliance working in a VM,
+then do a stripped down Raspberry Pi port.
+
+Mid Term
+Build "Access Packs" for broad categories of sites which I have deemed to be safe such as:
+Fortune 500 companies
+Mainstream media outlets
+Search engines
+Children's sites
+Retailers
+
+Long Term
+TBD
 
 ## Official Documentation
 
