@@ -100,7 +100,7 @@
 	}
 	.statuscontainer {
 		font-size: 2em;
-		width: 11em;
+		width: 12em;
 	}
 	.statustitle {
 		padding: .75em;
@@ -119,6 +119,7 @@
 	.status {
 		text-shadow: 3px 3px #333333;
 		float: right;
+		display: inline-block;
 	}
 	.title {
 		font-size: 2em;

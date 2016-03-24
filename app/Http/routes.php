@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('loginform', 'Auth\AuthController@showLoginForm');
+//Route::get('loginform', 'Auth\AuthController@showLoginForm');
 //Route::get('/', 'Auth\AuthController@showLoginForm');
-Route::get('/', 'Home@index');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -30,7 +29,8 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
+	Route::auth();
+	Route::get('/home', 'HomeController@index');
+	Route::get('/', 'Home@index');
+	Route::get('/svcctl/{service}/{action}', 'Dashboard@svcctl');
 });
