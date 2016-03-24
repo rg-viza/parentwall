@@ -10,7 +10,7 @@ PW Whitelisting Gateway Manager is an interface for managing whitelists and syst
 Built on the laravel framework, it's very easy to extend, maintain and work on. It currently supports iptables and a custom version of tinyproxy.
 
 The interface is responsively designed for mobile devices or computers. Utilizing email and an intuitive interface, it will allow users to completely lock down their 
-home/office network using the "Default Deny". What's different about PWWGM is that it will be so easy to use that my mom can use it, yet give fine grained control over 
+home/office network using the "Default Deny" security paradigm. What's different about PWWGM is that it will be so easy to use that my mom can use it, yet give fine grained control over 
 what is allowed to enter and leave your network. Out of the box there will be access packs to allow common mainstream sites, services etc  to work with a simple checklist 
 interface.
 
