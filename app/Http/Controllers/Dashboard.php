@@ -110,7 +110,7 @@ private $filterfile = '/srv/parentwall/public/filter';
 				$matches[]=$domain;
 			}
 		}
-		print_r($matches);
+		return array('matches'=>$matches);
 	}
 	public function whitelistAddAccessPack(){}
 	public function whitelistRemoveAccessPack(){}
@@ -119,7 +119,8 @@ private $filterfile = '/srv/parentwall/public/filter';
 		return back()->withInput();
 	}
 	public function whtlst($action,$domain=""){
-		echo eval('$this->whitelist'.$action.'($domain);');
+		echo eval('$data = $this->whitelist'.$action.'($domain);');
+		return view('whitelist')->with($data);
 		//return back()->withInput(array($this->filterfile));
 	}
 }
