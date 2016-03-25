@@ -33,4 +33,6 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/home', 'HomeController@index');
 	Route::get('/', 'Home@index');
 	Route::get('/svcctl/{service}/{action}', 'Dashboard@svcctl');
+        Route::get('/whtlst/{action}/{domain}', 'Dashboard@whtlst');
+
 });
