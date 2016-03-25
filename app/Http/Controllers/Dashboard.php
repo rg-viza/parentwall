@@ -71,13 +71,14 @@ private $filterfile = '/srv/parentwall/public/filter';
 		{
 			if($domain == $existingdomain)
 			{
-				return false;
+				return $this->whitelistFind();
 			}
 		}
 		$reswhitelist = fopen($this->filterfile,'a');
 		fputs($reswhitelist,$domain."\n");
 		fclose($reswhitelist);
 		$this->proxyRestart();
+		return $this->whitelistFind();
 		
 	}
 	public function whitelistRemove($domain){
@@ -92,12 +93,14 @@ private $filterfile = '/srv/parentwall/public/filter';
 			}
 		}
 		$reswhitelist = fopen($this->filterfile,'w');
+		sort($newlist);
 		foreach($newlist as $newdomain)	
 		{
 			fputs($reswhitelist,$newdomain."\n");
 		}
 		fclose($reswhitelist);
 		$this->proxyRestart();
+		return $this->whitelistFind();
 	}
 	public function whitelistFind($hint=""){
 		$matches=array();
