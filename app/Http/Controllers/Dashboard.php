@@ -113,10 +113,31 @@ private $filterfile = '/srv/parentwall/public/filter';
 				$matches[]=$domain;
 			}
 		}
-		return array('matches'=>$matches);
+		$data = array('matches'=>$matches,'operation'=>'remove');
+		return $data;
 	}
 	public function whitelistAddAccessPack(){}
 	public function whitelistRemoveAccessPack(){}
+	public function whitelistAddDomainReqForm($domain){
+		$operation = "domainRequestForm";
+		$user = Auth::user();
+		$data = array('domain'=>$domain, 'user'=>$user, 'operation'=>$operation);
+		return $data;
+	}
+	public function whitelistManage(){
+		$operation = "manage";
+		$links = array(
+			'Remove'=>'/whtlst/find',
+			'Approve'=>'/whtlst/approve'
+		);
+		$data = array('links'=>$links, 'operation'=>$operation);
+		return $data;
+	}
+	public function whitelistApproveList(){
+		$data = array('operation'=>'approve');
+		return $data;
+	}
+	public function whitelistAddDomainReqFormProc($domain){}
 	public function svcctl($service,$action) {
 		echo eval('$this->'.$service.$action.'();');
 		return back()->withInput();
@@ -124,6 +145,5 @@ private $filterfile = '/srv/parentwall/public/filter';
 	public function whtlst($action,$domain=""){
 		echo eval('$data = $this->whitelist'.$action.'($domain);');
 		return view('whitelist')->with($data);
-		//return back()->withInput(array($this->filterfile));
 	}
 }
