@@ -13,5 +13,17 @@
 		            		<div class="statustitle"><a href="{{ $value  }}"><span>{{ $key }}</span></a></div>  
 		    		@endforeach
 			</div>
+		@elseif($operation=="approvelist")
+			<div class="statuscontainer">
+				@foreach ( $userlist as $key => $value )
+		            		<div class="statustitle"><a href="/whtlst/approveuserlist/{{ $value  }}"><span>{{ $value }}</span></a></div>  
+		    		@endforeach
+			</div>
+		@elseif($operation=="approveuserlist")
+			<div class="statuscontainer">
+				@foreach ( $domainlist as $key => $value )
+		            		<div class="statustitle"><a href="/whtlst/approvedomain/{{ $value  }}"><span>{{ $value }}</span></a></div>  
+		    		@endforeach
+			</div>
 		@endif
 	@endsection

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://parentwall.local'),
+    'url' => env('APP_URL', 'https://pw.local'),
 
     /*
     |--------------------------------------------------------------------------

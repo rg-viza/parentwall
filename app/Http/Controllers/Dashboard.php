@@ -128,13 +128,27 @@ private $filterfile = '/srv/parentwall/public/filter';
 		$operation = "manage";
 		$links = array(
 			'Remove'=>'/whtlst/find',
-			'Approve'=>'/whtlst/approve'
+			'Approve'=>'/whtlst/approvelist'
 		);
 		$data = array('links'=>$links, 'operation'=>$operation);
 		return $data;
 	}
 	public function whitelistApproveList(){
-		$data = array('operation'=>'approve');
+		$userlist = scandir('../storage/approvalrequests');
+		foreach($userlist as $idx=>$user)
+		{
+			if($user=='.' || $user=='..')
+			{
+				unset($userlist[$idx]);
+			}
+		}
+		$userlist = array_values($userlist);
+		$data = array('operation'=>'approvelist','userlist'=>$userlist);
+		return $data;
+	}
+	public function whitelistApproveUserList($user) {
+		$domainlist = file('../storage/approvalrequests/'.$user);
+		$data = array('operation'=>'approveuserlist','domainlist'=>$domainlist);
 		return $data;
 	}
 	public function whitelistAddDomainReqFormProc($domain){}
