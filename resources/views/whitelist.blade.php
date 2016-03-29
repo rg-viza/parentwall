@@ -86,6 +86,8 @@
 						$links[]=$item;
 					}
 				}
+                                $adserverblacklist = file_get_contents('http://www.volkerschatz.com/net/adpaths');
+                                echo $adserverblacklist;
 				$links = array_values(array_unique($links));
 				sort($links);
 				print_r($links);
