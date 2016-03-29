@@ -151,6 +151,11 @@ private $filterfile = '/srv/parentwall/public/filter';
 		$data = array('operation'=>'approveuserlist','domainlist'=>$domainlist);
 		return $data;
 	}
+	public function whitelistPreviewDomain($domain) {
+		$operation = "previewdomain";
+		$data = array('operation'=>$operation, 'domain'=>$domain);
+		return $data;
+	}
 	public function whitelistAddDomainReqFormProc($domain){}
 	public function svcctl($service,$action) {
 		echo eval('$this->'.$service.$action.'();');

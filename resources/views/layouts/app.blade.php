@@ -88,11 +88,17 @@
 		text-align: center;
                 display: fixed;
                 vertical-align: middle;
+		height: 100%;
+		width: 100%;
         }
 
         .content {
                 text-align: center;
                 display: inline-block;
+		border-width: 2px;
+		border-color: black;
+		height: 100%;
+		width: 100%;
         }
 	.status {
 		text-align: center;
@@ -101,6 +107,8 @@
 	.statuscontainer {
 		font-size: 2em;
 		width: 12em;
+		display: table;
+    		margin: 0 auto;
 	}
 	.statustitle {
 		padding: .75em;

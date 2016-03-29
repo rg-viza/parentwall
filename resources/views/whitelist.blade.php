@@ -22,8 +22,77 @@
 		@elseif($operation=="approveuserlist")
 			<div class="statuscontainer">
 				@foreach ( $domainlist as $key => $value )
-		            		<div class="statustitle"><a href="/whtlst/approvedomain/{{ $value  }}"><span>{{ $value }}</span></a></div>  
+		            		<div class="statustitle"><a href="/whtlst/previewdomain/{{ $value  }}"><span>{{ $value }}</span></a></div>  
 		    		@endforeach
+			</div>
+		@elseif($operation=="previewdomain")
+			<?php
+				$links = array();
+				$html = file_get_contents("http://".$domain);
+				$regexp = "<a\s[^>]*href=([\"\']??)([^\\1 >]*?)\\1[^>]*>";
+				preg_match_all("/$regexp/Siu", $html, $matches);
+				foreach($matches[0] as $idx=>$a)
+				{
+					if(preg_match("/http/",$a))
+					{
+						$arrLink1 = explode('href=', $a);
+						$arrLink2 = explode(" ", $arrLink1[1]);
+						$arrLink3 = explode(">", $arrLink2[0]);
+						$arrLink4 = explode("/",$arrLink3[0]);
+						$hostname = preg_replace("/[^\w\d\.\-\_]/","",$arrLink4[2]);
+						$item = $hostname;
+						$links[]=$item;
+					}
+				}
+				preg_match_all('/<img[^>]+>/i',$html, $images); 
+				foreach($images[0] as $idx=>$a)
+				{
+					if(preg_match("/http/",$a))
+					{
+						$arrLink1 = explode('src=', $a);
+						$arrLink2 = explode(" ", $arrLink1[1]);
+						$arrLink3 = explode(">", $arrLink2[0]);
+						$arrLink4 = explode("/",$arrLink3[0]);
+						$hostname = preg_replace("/[^\w\d\.\-\_]/","",$arrLink4[2]);
+						$item = $hostname;
+						$links[]=$item;
+					}
+				}
+				preg_match_all('/<script[^>]+>/i',$html, $images); 
+				foreach($images[0] as $idx=>$a)
+				{
+					if(preg_match("/http/",$a))
+					{
+						$arrLink1 = explode('src=', $a);
+						$arrLink2 = explode(" ", $arrLink1[1]);
+						$arrLink3 = explode(">", $arrLink2[0]);
+						$arrLink4 = explode("/",$arrLink3[0]);
+						$hostname = preg_replace("/[^\w\d\.\-\_]/","",$arrLink4[2]);
+						$item = $hostname;
+						$links[]=$item;
+					}
+				}
+				preg_match_all('/<link[^>]+>/i',$html, $images); 
+				foreach($images[0] as $idx=>$a)
+				{
+					if(preg_match("/http/",$a))
+					{
+						$arrLink1 = explode('href=', $a);
+						$arrLink2 = explode(" ", $arrLink1[1]);
+						$arrLink3 = explode(">", $arrLink2[0]);
+						$arrLink4 = explode("/",$arrLink3[0]);
+						$hostname = preg_replace("/[^\w\d\.\-\_]/","",$arrLink4[2]);
+						$item = $hostname;
+						$links[]=$item;
+					}
+				}
+				$links = array_values(array_unique($links));
+				sort($links);
+				print_r($links);
+			?>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+			<div class="statuscontainer" id="contentframe" name="contentframe" style="height:100%;width:100%;border-width:2px;border-color:black;">
+				<iframe src="http://{{ $domain }}" style="height:100%;width:100%;"></iframe>
 			</div>
 		@endif
 	@endsection
