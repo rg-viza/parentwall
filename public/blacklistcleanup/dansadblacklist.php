@@ -1,5 +1,5 @@
 <?php
-	$dansadblacklist = file('/srv/parentwall/public/blacklists/dansadblacklist');
+	$dansadblacklist = file('/srv/parentwall/public/blacklistsraw/dansadblacklist');
 	$display = false;
 	foreach($dansadblacklist as $idx=>$line)
 	{

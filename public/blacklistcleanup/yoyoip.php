@@ -1,5 +1,5 @@
 <?php
-	$yoyoip = file('/srv/parentwall/public/blacklists/yoyoip');
+	$yoyoip = file('/srv/parentwall/public/blacklistsraw/yoyoip');
 	$display = false;
 	foreach($yoyoip as $idx=>$line)
 	{

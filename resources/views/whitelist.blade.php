@@ -33,7 +33,7 @@
 				preg_match_all("/$regexp/Siu", $html, $matches);
 				foreach($matches[0] as $idx=>$a)
 				{
-					if(preg_match("/http/",$a))
+					if(preg_match("/\/\//",$a))
 					{
 						$arrLink1 = explode('href=', $a);
 						$arrLink2 = explode(" ", $arrLink1[1]);
@@ -44,7 +44,8 @@
 						$links[]=$item;
 					}
 				}
-				preg_match_all('/<img[^>]+>/i',$html, $images); 
+				preg_match_all('/<img[^>]+>/i',$html, $images);
+				//print_r($images);exit; 
 				foreach($images[0] as $idx=>$a)
 				{
 					if(preg_match("/http/",$a))
@@ -86,11 +87,12 @@
 						$links[]=$item;
 					}
 				}
-                                $adserverblacklist = file_get_contents('http://www.volkerschatz.com/net/adpaths');
-                                echo $adserverblacklist;
-				$links = array_values(array_unique($links));
-				sort($links);
+				$arrBlacklist = file(Config::get('blacklists.master'),FILE_IGNORE_NEW_LINES);
+				$links[]='81.19.70.1';
+				$linksClean = array_diff($links,$arrBlacklist);
 				print_r($links);
+				echo "<br/><br/>";
+				print_r($linksClean);
 			?>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 			<div class="statuscontainer" id="contentframe" name="contentframe" style="height:100%;width:100%;border-width:2px;border-color:black;">

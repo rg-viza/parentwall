@@ -1,5 +1,5 @@
 <?php
-	$volkerschatz = file('/srv/parentwall/public/blacklists/volkerschatz');
+	$volkerschatz = file('/srv/parentwall/public/blacklistsraw/volkerschatz');
 	$display = false;
 	foreach($volkerschatz as $idx=>$line)
 	{

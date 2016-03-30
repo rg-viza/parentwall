@@ -1,5 +1,5 @@
 <?php
-	$dbblacklist = file('/srv/parentwall/public/blacklists/db.blacklist');
+	$dbblacklist = file('/srv/parentwall/public/blacklistsraw/db.blacklist');
 	$display = false;
 	foreach($dbblacklist as $idx=>$line)
 	{
