@@ -96,7 +96,7 @@
 			?>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 			<div class="statuscontainer" id="contentframe" name="contentframe" style="height:100%;width:100%;border-width:2px;border-color:black;">
-				<iframe src="http://{{ $domain }}" style="height:100%;width:100%;"></iframe>
+				<iframe src="http://{{ $domain }}" style="height:100%;width:100%;" sandbox></iframe>
 			</div>
 		@endif
 	@endsection

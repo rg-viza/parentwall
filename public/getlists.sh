@@ -1,6 +1,6 @@
 #!/usr/bin/sh
-rm -f /srv/parentwall/blacklists/master
-touch /srv/parentwall/blacklists/master
+rm -f /srv/parentwall/public/blacklists/master
+touch /srv/parentwall/public/blacklists/master
 /usr/bin/wget https://sourceforge.net/p/dansguardian/code/HEAD/tree/trunk/dansguardian/configs/lists/blacklists/ads/domains?format=raw -O /srv/parentwall/public/blacklistsraw/dansadblacklist
 /usr/bin/wget http://www.volkerschatz.com/net/adpaths -O /srv/parentwall/public/blacklistsraw/volkerschatz
 /usr/bin/wget http://pgl.yoyo.org/adservers/iplist.php -O /srv/parentwall/public/blacklistsraw/yoyoip
