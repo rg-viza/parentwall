@@ -12,12 +12,12 @@ class Home extends Controller{
 	public function index(){
 		$dashboard = new Dashboard();
 		$firewallStatus  = $dashboard->firewallStatus();
-		$tinyproxyStatus  = $dashboard->tinyproxyStatus();
+		$proxyStatus  = $dashboard->proxyStatus();
 		$internetStatus  = $dashboard->internetStatus();
 		$isLoggedIn  = Auth::check();
 		$data = array(
 			'firewallStatus' => $firewallStatus,
-			'tinyproxyStatus' => $tinyproxyStatus,
+			'proxyStatus' => $proxyStatus,
 			'internetStatus' => $internetStatus,
 			'isLoggedIn' => $isLoggedIn
 		);

@@ -14,7 +14,7 @@
 					@endif
 				</div>
 				<div class="statustitle"><span>Proxy:</span>
-					@if(empty($tinyproxyStatus))
+					@if(empty($proxyStatus))
 						<img class="status" src="/images/transparent.png" height='32' width='32'/>
 						<a href="/svcctl/proxy/Start"><img class="status" src="/images/playgreen.png" height='32' width='32'/></a>
 						<img class="status" src="/images/cancel.png" height='32' width='32'/>

@@ -9,8 +9,12 @@ use App\Http\Controllers\Auth\AuthController;
 require_once('../vendor/registereddomains/regDomain.inc.php');
 class Dashboard extends Controller{
 	private $filterfile = '/srv/parentwall/public/filter';
+	function strip_host($hostname){
+		$tldTree = config('tldtree.tldtree');
+		$domain = getRegisteredDomain($hostname,$tldTree);	
+		return $domain;
+	}
 	function get_filtered_hostnames($html){
-		require_once('../vendor/registereddomains/effectiveTLDs.inc.php');
 		$hosts = array();
 		$objDOM = new \DOMDocument();
 		@$objDOM->loadHTML($html);
@@ -54,7 +58,7 @@ class Dashboard extends Controller{
 		
 		foreach($hosts as $idx=>$host)
 		{
-			$hosts[$idx] = getRegisteredDomain($host,$tldTree);
+			$hosts[$idx] = $this->strip_host($host);
 		}
 		
 		$hosts = array_unique($hosts);
@@ -86,8 +90,8 @@ class Dashboard extends Controller{
 	public function firewallRestart(){
 		return exec("/usr/bin/sudo /usr/bin/systemctl restart iptables");
 	}
-	public function tinyproxyStatus(){
-		exec("pgrep tinyproxy", $pids);
+	public function proxyStatus(){
+		exec("pgrep squid", $pids);
 		if(empty($pids)) {
 			return false;
 		}
@@ -97,14 +101,13 @@ class Dashboard extends Controller{
 		}
 	}
 	public function proxyStart(){
-		exec("/usr/bin/sudo /opt/sbin/tinyproxy");
+		exec("/usr/bin/sudo /usr/bin/systemctl start squid");
 	}
 	public function proxyStop(){
-		exec("/usr/bin/sudo /usr/bin/killall tinyproxy");
+		exec("/usr/bin/sudo /usr/bin/systemctl stop squid");
 	}
 	public function proxyRestart(){
-		exec("/usr/bin/sudo /usr/bin/killall tinyproxy");
-		exec("/usr/bin/sudo /opt/sbin/tinyproxy");	
+		exec("/usr/bin/sudo /usr/bin/squid -k reconfigure");
 	}
 	public function internetStatus(){
 		exec("ping -c 1 www.google.com", $response);
@@ -131,7 +134,7 @@ class Dashboard extends Controller{
 			}
 		}
 		$reswhitelist = fopen($this->filterfile,'a');
-		fputs($reswhitelist,$domain."\n");
+		fputs($reswhitelist,".".$domain."\n");
 		fclose($reswhitelist);
 		$this->proxyRestart();
 		return $this->whitelistFind();
@@ -155,7 +158,6 @@ class Dashboard extends Controller{
 			fputs($reswhitelist,$newdomain."\n");
 		}
 		fclose($reswhitelist);
-		$this->proxyRestart();
 		return $this->whitelistFind();
 	}
 	public function whitelistFind($hint=""){
@@ -209,13 +211,20 @@ class Dashboard extends Controller{
 	}
 	public function whitelistApproveSite(Request $request)
 	{
-		print_r($request->input('domains'));
-		exit;
+		foreach($request->input('domains') as $idx=>$domain)
+		{
+			$this->whitelistAdd($domain);
+			$data['domainsadded'][]=$domain;
+		}
+		$data['operation']='approveresult';
+		$this->proxyRestart();
+		return $data;
 	}
 	public function whitelistPreviewDomain($domain) {
 		$operation = "previewdomain";
 		$html = file_get_contents('http://'.$domain);
 		$filteredhostnames = $this->get_filtered_hostnames($html);
+		$filteredhostnames[] = $this->strip_host($domain);
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);
 		return $data;
 	}
