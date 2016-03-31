@@ -34,6 +34,7 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/', 'Home@index');
 	Route::get('/svcctl/{service}/{action}', 'Dashboard@svcctl');
         Route::get('/whtlst/{action}/{domain?}', 'Dashboard@whtlst');
+        Route::post('/whtlst/approvesite', 'Dashboard@whitelistApproveSite');
         Route::get('/domainreq/{action}/{domain?}', 'Dashboard@domainreq');
 
 });

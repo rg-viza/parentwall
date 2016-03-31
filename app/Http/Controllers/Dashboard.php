@@ -5,9 +5,65 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\AuthController;
-
+//echo realpath('.');exit;
+require_once('../vendor/registereddomains/regDomain.inc.php');
 class Dashboard extends Controller{
-private $filterfile = '/srv/parentwall/public/filter';
+	private $filterfile = '/srv/parentwall/public/filter';
+	function get_filtered_hostnames($html){
+		require_once('../vendor/registereddomains/effectiveTLDs.inc.php');
+		$hosts = array();
+		$objDOM = new \DOMDocument();
+		@$objDOM->loadHTML($html);
+		$anchors = $objDOM->getElementsByTagName('a');
+		foreach($anchors as $anchor)
+		{
+			$href = $anchor->getAttribute('href');
+			$url = parse_url($href);
+			if(!empty($url['host'])){
+				$hosts[]=$url['host'];
+			}
+			
+		}
+		$imgs = $objDOM->getElementsByTagName('img');
+		foreach($imgs as $img)
+		{
+			$href = $img->getAttribute('src');
+			$url = parse_url($href);
+			if(!empty($url['host'])){
+				$hosts[]=$url['host'];
+			}
+		}
+		$scripts = $objDOM->getElementsByTagName('script');
+		foreach($scripts as $script)
+		{
+			$href = $script->getAttribute('src');
+			$url = parse_url($href);
+			if(!empty($url['host'])){
+				$hosts[]=$url['host'];
+			}
+		}
+		$links = $objDOM->getElementsByTagName('link');
+		foreach($links as $link)
+		{
+			$href = $link->getAttribute('href');
+			$url = parse_url($href);
+			if(!empty($url['host'])){
+				$hosts[]=$url['host'];
+			}
+		}
+		
+		foreach($hosts as $idx=>$host)
+		{
+			$hosts[$idx] = getRegisteredDomain($host,$tldTree);
+		}
+		
+		$hosts = array_unique($hosts);
+		$arrBlacklist = file("blacklists/master",FILE_IGNORE_NEW_LINES);
+		$hostsClean = array_diff($hosts, $arrBlacklist);
+		sort($hostsClean);
+		$hostsClean = array_values($hostsClean);
+		return $hostsClean;
+	}
 	public function firewallStatus(){
 		exec("systemctl status iptables", $result);
 		$statusline = $result[2];
@@ -151,9 +207,16 @@ private $filterfile = '/srv/parentwall/public/filter';
 		$data = array('operation'=>'approveuserlist','domainlist'=>$domainlist);
 		return $data;
 	}
+	public function whitelistApproveSite(Request $request)
+	{
+		print_r($request->input('domains'));
+		exit;
+	}
 	public function whitelistPreviewDomain($domain) {
 		$operation = "previewdomain";
-		$data = array('operation'=>$operation, 'domain'=>$domain);
+		$html = file_get_contents('http://'.$domain);
+		$filteredhostnames = $this->get_filtered_hostnames($html);
+		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);
 		return $data;
 	}
 	public function whitelistAddDomainReqFormProc($domain){}
