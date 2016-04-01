@@ -1,4 +1,5 @@
-/vendor
+!/vendor
+/vendor/*
 !/vendor/registereddomains
 /node_modules
 /public/storage
