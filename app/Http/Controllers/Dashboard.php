@@ -101,13 +101,15 @@ class Dashboard extends Controller{
 		}
 	}
 	public function proxyStart(){
-		exec("/usr/bin/sudo /usr/bin/systemctl start squid");
+		exec("/usr/bin/sudo squid");
 	}
 	public function proxyStop(){
-		exec("/usr/bin/sudo /usr/bin/systemctl stop squid");
+		exec("/usr/bin/sudo /usr/bin/killall squid");
 	}
 	public function proxyRestart(){
-		exec("/usr/bin/sudo /usr/bin/squid -k reconfigure");
+		//exec("/usr/bin/sudo /usr/bin/squid -k reconfigure");
+		$this->proxyStop();
+		$this->proxyStart();
 	}
 	public function internetStatus(){
 		exec("ping -c 1 www.google.com", $response);
@@ -126,6 +128,7 @@ class Dashboard extends Controller{
 		
 		$whitelist = file_get_contents($this->filterfile);
 		$domainarray = explode("\n", $whitelist);
+		$domainarray = array_unique($domainarray);
 		foreach($domainarray as $existingdomain)
 		{
 			if($domain == $existingdomain)
@@ -144,6 +147,7 @@ class Dashboard extends Controller{
 		$newlist = array();
 		$whitelist = file_get_contents($this->filterfile);
 		$domainarray = explode("\n", $whitelist);
+		$domainarray = array_unique($domainarray);
 		foreach($domainarray as $existingdomain)
 		{
 			if($domain != $existingdomain && !empty($existingdomain))
@@ -164,6 +168,7 @@ class Dashboard extends Controller{
 		$matches=array();
 		$whitelist = file_get_contents($this->filterfile);
 		$domainarray = explode("\n", $whitelist);
+		$domainarray = array_unique($domainarray);
 		foreach($domainarray as $domain)
 		{
 			if(preg_match("/$hint/", $domain) && !empty($domain))
