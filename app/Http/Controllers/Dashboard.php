@@ -223,9 +223,9 @@ class Dashboard extends Controller{
 		$this->proxyRestart();
 		return $data;
 	}
-	public function whitelistPreviewDomain($domain) {
+	public function whitelistPreviewDomain($domain,$protocol) {
 		$operation = "previewdomain";
-		$html = file_get_contents('http://'.$domain);
+		$html = file_get_contents($protocol.'://'.$domain);
 		$filteredhostnames = $this->get_filtered_hostnames($html);
 		$filteredhostnames[] = $this->strip_host($domain);
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);
@@ -236,8 +236,15 @@ class Dashboard extends Controller{
 		echo eval('$this->'.$service.$action.'();');
 		return back()->withInput();
 	}
-	public function whtlst($action,$domain=""){
-		echo eval('$data = $this->whitelist'.$action.'($domain);');
+	public function whtlst($action,$domain="",$protocol=""){
+		if(empty($protocol))
+		{
+			echo eval('$data = $this->whitelist'.$action.'($domain);');
+		}
+		else
+		{
+			echo eval('$data = $this->whitelist'.$action.'($domain,$protocol);');
+		}
 		return view('whitelist')->with($data);
 	}
 }

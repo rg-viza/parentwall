@@ -16,11 +16,24 @@ body
 <h2>The requested URL could not be retrieved</h2>
 </div>
 <hr>
-
+%p
 <div id="content">
 <p>The following error was encountered while trying to retrieve the URL: <a href="%U">%U</a></p>
+<br/>
+%U
+<br/>
+%P
+
 <script>
-document.location='http://pw.local/whtlst/previewdomain/%H';
+var port = %p;
+if(port == 443)
+{
+	document.location='http://pw.local/whtlst/previewdomain/%H/https';
+}
+else
+{
+	document.location='http://pw.local/whtlst/previewdomain/%H/http';
+}
 </script>
 <blockquote id="error">
 <p><b>Access Denied.</b></p>
