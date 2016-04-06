@@ -101,15 +101,13 @@ class Dashboard extends Controller{
 		}
 	}
 	public function proxyStart(){
-		exec("/usr/bin/sudo squid");
+		exec("/usr/bin/sudo /usr/bin/squid");
 	}
 	public function proxyStop(){
-		exec("/usr/bin/sudo /usr/bin/killall squid");
+		exec("/usr/bin/sudo /usr/bin/squid -k shutdown");
 	}
 	public function proxyRestart(){
-		//exec("/usr/bin/sudo /usr/bin/squid -k reconfigure");
-		$this->proxyStop();
-		$this->proxyStart();
+		exec("/usr/bin/sudo /usr/bin/squid -k reconfigure");
 	}
 	public function internetStatus(){
 		exec("ping -c 1 www.google.com", $response);
