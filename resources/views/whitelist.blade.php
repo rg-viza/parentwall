@@ -18,6 +18,19 @@
 			@foreach ( $domainlist as $key => $value )
 		        	<div class="statustitle"><a href="/whtlst/previewdomain/{{ $value  }}"><span>{{ $value }}</span></a></div>  
 		    	@endforeach
+		@elseif($operation=="requestdomain")
+		        <div class="statusrequest">Access has not yet been allowed for this site. Would you like to request access to {{ $protocol }}://{{ $domain }}?
+			<p/> 
+				&nbsp;
+			<p/> 
+			<form name="sendrequestdomain" action="/whtlst/sendrequestdomain" method="POST">
+				{{ csrf_field() }}
+				<input type="hidden" name="domain" value="{{ $domain }}"/>
+				<input type="hidden" name="protocol" value="{{ $protocol }}"/>
+				<input type="submit" value="Yes"/>
+				<input type="submit" value="Cancel"/>
+			</form>
+			</div>
 		@elseif($operation=="previewdomain")
 			<form name="addtowhitelist" action="/whtlst/approvesite" method="POST">
 				{{ csrf_field() }}

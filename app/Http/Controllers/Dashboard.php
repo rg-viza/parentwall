@@ -231,6 +231,13 @@ class Dashboard extends Controller{
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);
 		return $data;
 	}
+	public function whitelistRequestDomain($domain,$protocol)
+	{
+		$operation = "requestdomain";
+		$data = array('operation'=>$operation, 'domain'=>$domain, 'protocol'=>$protocol);
+		return $data;
+		
+	}
 	public function whitelistAddDomainReqFormProc($domain){}
 	public function svcctl($service,$action) {
 		echo eval('$this->'.$service.$action.'();');

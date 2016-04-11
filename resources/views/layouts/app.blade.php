@@ -110,6 +110,12 @@
 		display: table;
     		margin: 0 auto;
 	}
+	.statusrequest {
+		padding: .75em;
+		width: 12em;
+		font-weight: normal;
+		font-size: .6em;
+	}
 	.statustitle {
 		padding: .75em;
 		width: 12em;

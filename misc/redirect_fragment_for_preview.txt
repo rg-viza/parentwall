@@ -1,0 +1,12 @@
+<script>
+var port = %p;
+if(port == 443)
+{
+        document.location='http://pw.local/whtlst/previewdomain/%H/https';
+}
+else
+{
+        document.location='http://pw.local/whtlst/previewdomain/%H/http';
+}
+</script>
+
