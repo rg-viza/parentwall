@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Auth;
+use \Mail;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -231,14 +232,24 @@ class Dashboard extends Controller{
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);
 		return $data;
 	}
-	public function whitelistRequestDomain($domain,$protocol)
+	public function whitelistDomainNotAllowed($domain,$protocol)
 	{
 		$operation = "requestdomain";
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'protocol'=>$protocol);
 		return $data;
-		
 	}
-	public function whitelistAddDomainReqFormProc($domain){}
+	public function requestDomain(Request $request) {
+		$form = $request->input();
+		$user = Auth::user();
+		$data = [
+			'operation'=>'requestdomainresponse',
+			'form'=>$form,
+			'user'=>$user
+		];
+		$message = $user->email." has requested access to ".$form['protocol']."://".$form['domain']."\nClick http://pw.local/whtlst/previewdomain/".$form['domain']."/".$form['protocol']." to preview/approve.";
+		mail('npdavis@hotmail.com', 'Domain Request', $message);
+		return view('whitelist')->with($data);
+	}
 	public function svcctl($service,$action) {
 		echo eval('$this->'.$service.$action.'();');
 		return back()->withInput();

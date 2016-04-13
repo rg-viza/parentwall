@@ -23,7 +23,7 @@
 			<p/> 
 				&nbsp;
 			<p/> 
-			<form name="sendrequestdomain" action="/whtlst/sendrequestdomain" method="POST">
+			<form name="requestdomain" action="/whtlst/requestdomain" method="POST">
 				{{ csrf_field() }}
 				<input type="hidden" name="domain" value="{{ $domain }}"/>
 				<input type="hidden" name="protocol" value="{{ $protocol }}"/>
@@ -31,6 +31,9 @@
 				<input type="submit" value="Cancel"/>
 			</form>
 			</div>
+		@elseif($operation=="requestdomainresponse")
+		        <div class="statusrequest">Access has been requested for {{ $form['protocol'] }}://{{ $form['domain'] }}. You will recieve a notification at {{ $user->email }} when it has been approved. 
+			</div>	
 		@elseif($operation=="previewdomain")
 			<form name="addtowhitelist" action="/whtlst/approvesite" method="POST">
 				{{ csrf_field() }}
