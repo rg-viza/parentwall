@@ -226,7 +226,18 @@ class Dashboard extends Controller{
 	}
 	public function whitelistPreviewDomain($domain,$protocol) {
 		$operation = "previewdomain";
-		$html = file_get_contents($protocol.'://'.$domain);
+		try
+		{	
+			$html = file_get_contents($protocol.'://'.$domain);
+		}
+		catch (\ErrorException $e)
+		{
+			echo "<xmp>";
+			print_r($e);
+			echo "</xmp>";
+			exit;
+		}
+
 		$filteredhostnames = $this->get_filtered_hostnames($html);
 		$filteredhostnames[] = $this->strip_host($domain);
 		$data = array('operation'=>$operation, 'domain'=>$domain, 'filteredhostnames'=>$filteredhostnames);

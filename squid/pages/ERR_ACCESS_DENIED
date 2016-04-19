@@ -28,11 +28,11 @@ body
 var port = %p;
 if(port == 443)
 {
-	document.location='http://pw.local/whtlst/previewdomain/%H/https';
+	document.location='http://pw.local/whtlst/domainnotallowed/%H/https';
 }
 else
 {
-	document.location='http://pw.local/whtlst/previewdomain/%H/http';
+	document.location='http://pw.local/whtlst/domainnotallowed/%H/http';
 }
 </script>
 <blockquote id="error">
